@@ -1,8 +1,11 @@
 #!/bin/bash
 
-if [ -f $FILE ];
+#hopefully the only thing you might ever need to change in this file:
+config_file="./.desktop-cleaner/config.sh";
+
+if [ -f $config_file ];
 then
-	source ./config.sh;
+	source ~/.desktop-cleaner/config.sh;
 else
 	echo "Configuration file not found.";
 	echo "Would you like to create one? (y/n)";
@@ -10,7 +13,14 @@ else
 	if [ $response == "y" ];
 	then
 		#do stuff;
-		touch ./config.sh;
+		if [ -d ~/.desktop-cleaner ]; then
+			echo 'directory already exists, either there is an existing setup or an unfortunate naming coincidence';
+			echo 'this will need to be corrected before continuing';
+			exit 1;
+		else
+			mkdir ~/.desktop-cleaner;
+		fi
+		touch ~/.desktop-cleaner/config.sh;
 		chmod 755 ./config.sh;
 		cat <<EOT >> ./config.sh;
 		#Directory to Clean:
