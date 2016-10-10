@@ -24,6 +24,7 @@ else
 
 			
 		EOT
+		
 	elif [ $response == "n" ];
 		#probably error;
 	else
@@ -34,6 +35,8 @@ fi
 
 #begin cleaning
 FileDate=`date +'%m/%d/%Y'`;
-find $Dir2Cln $(printf "! -name %s " $(cat skip_files)) -mtime +$FileAge -exec tar -czvf $Dir2Str/$FileDate.tar.gz \;
-
-
+if [ -d "$Dir2Cln" ]; then
+	find $Dir2Cln $(printf "! -name %s " $(cat skip_files)) -mtime +$FileAge -exec tar -czvf $Dir2Str/$FileDate.tar.gz \;
+else
+	echo "The directory to clean($Dir2Cln) does not seem to be present";
+fi
