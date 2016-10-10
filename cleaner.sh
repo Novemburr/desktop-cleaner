@@ -22,12 +22,6 @@ else
 		#ignore list file
 		skip_files="./skip_files.txt";
 
-
-		#likely not going to use this
-		#File types to ignore(comma delimited):
-		#ignoreFiles=".exe, .app, .sh";
-		#Folders to ignore(comma delimited):
-		#ignoreFolders="~/Desktop/music/";
 			
 		EOT
 	elif [ $response == "n" ];
@@ -40,28 +34,6 @@ fi
 
 #begin cleaning
 FileDate=`date +'%m/%d/%Y'`;
-#ignoreList=`ignoreListParse()`;
 find $Dir2Cln $(printf "! -name %s " $(cat skip_files)) -mtime +$FileAge -exec tar -czvf $Dir2Str/$FileDate.tar.gz \;
 
 
-
-
-function ignoreListParser() {
-
-	#ignore files
-	while IFS=',' read -ra ADDR; do
-		for i in "${ADDR[@]}"; do
-			# process "$i"
-			listIgnoreFiles+=" ! -name '$i'";
-		done
-	done <<< "$ignoreFiles"
-	#ignore dirs
-	while IFS=',' read -ra ADDR; do
-		for i in "${ADDR[@]}"; do
-			# process "$i"
-			listIgnoreFolders+=" ! -name '$i'";
-		done
-	done <<< "$ignoreFolders"
-	echo $ignoreFiles $ignoreFolders;
-
-}
